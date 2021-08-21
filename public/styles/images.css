@@ -1,0 +1,18 @@
+#formFile{
+    display: flex;
+}
+#formFile img{
+    width: 100px;
+    height: 75px;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    opacity: 85%;
+    transition: .5s;
+}
+#formFile img:hover{
+    opacity: 50%;
+}
+#formFile input[type=checkbox] {
+   position: relative;
+   left: -15px;
+}

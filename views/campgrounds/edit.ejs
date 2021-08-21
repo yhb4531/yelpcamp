@@ -1,8 +1,10 @@
 <% layout('layouts/boilerplate') %>
+<link rel="stylesheet" href="/styles/images.css" class="rel">
+
 <div class="row">
     <h1 class="text-center">Edit Campground</h1>
     <div class="col-6 offset-3">
-        <form action="/campgrounds/<%= campground._id %>?_method=PUT" method="POST" novalidate class="validated-form">
+        <form action="/campgrounds/<%= campground._id %>?_method=PUT" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
                 <input class="form-control" type="text" name="campground[title]" id="title" value="<%= campground.title %>" required>
@@ -18,10 +20,21 @@
                 </div>
             </div>
             <div class="mb-3">
-                <label class="form-label" for="image">Image URL</label>
-                <input class="form-control" type="text" name="campground[image]" id="image" value="<%= campground.image %>" required>
-                <div class="valid-feedback">
-                    Looks good!
+                <label class="form-label">Images</label>
+                <div class="form-file custom-file">
+                    <input type="file" class="form-control" name="image" id="image" multiple onchange="previewMultiple(event)">
+                    <label for="custom-form-label"></label>
+                </div>
+                <div id="formFile"></div>
+                <div id="formFile">
+                    <% campground.images.forEach(function(img, i) { %>
+                        <label for="image-<%= i %>">
+                            <img src="<%= img.url %> " alt="">
+                        </label>
+                        <div class="form-check-inline">
+                            <input type="checkbox" name="deleteImages[]" value="<%= img.filename %>" id="image-<%= i %>">
+                        </div>
+                    <% }) %>
                 </div>
             </div>
             <div class="mb-3">
