@@ -12,7 +12,7 @@ ImageSchema.virtual('thumbnail').get(function(){
 });
 //to use this virtual 'thumbnail', replace url to thumbnail in ejs files
  
-const CampgroundSchema = new Schema({
+const AttractionSchema = new Schema({
     title: String,
     images: [ImageSchema],
     geometry: {
@@ -26,7 +26,6 @@ const CampgroundSchema = new Schema({
             required: true
         }
     },
-    price: Number,
     description: String,
     location: String,
     author: {
@@ -41,7 +40,7 @@ const CampgroundSchema = new Schema({
     ]
 });
 
-CampgroundSchema.post('findOneAndDelete', async function(doc){
+AttractionSchema.post('findOneAndDelete', async function(doc){
     if(doc){
         await Review.deleteMany({
             _id:{
@@ -51,4 +50,4 @@ CampgroundSchema.post('findOneAndDelete', async function(doc){
     }
 })
 
-module.exports = mongoose.model('Campground', CampgroundSchema);
+module.exports = mongoose.model('Attraction', AttractionSchema);

@@ -18,7 +18,7 @@ const User = require('./models/user');
 
 //Separated out all the paths using routes
 const userRoute = require('./routes/users');
-const campgroundRoute = require('./routes/campgrounds');
+const attractionRoute = require('./routes/attractions');
 const reviewRoute = require('./routes/reviews');
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {
@@ -73,8 +73,8 @@ app.use((req, res, next) => {
 })
 
 app.use('/', userRoute);
-app.use('/campgrounds', campgroundRoute);
-app.use('/campgrounds/:id/reviews', reviewRoute);
+app.use('/attractions', attractionRoute);
+app.use('/attractions/:id/reviews', reviewRoute);
 
 app.get('/', (req, res) => {
     res.render('home');
