@@ -20,6 +20,7 @@ module.exports.createAttraction = async(req, res, next) => {
         limit: 1
     }).send();
     attraction.geometry = geoData.body.features[0].geometry;
+    attraction.location = geoData.body.features[0].place_name;
     attraction.images = req.files.map(f => ({url: f.path, filename: f.filename}));
     attraction.author = req.user._id;
     await attraction.save();
@@ -55,18 +56,25 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.attractionUpdate = async (req, res) => {
     const {id} = req.params;
-    const attraction = await Attraction.findByIdAndUpdate(id, {...req.body.attraction});
+    const attraction = req.body.attraction;
+    const geoData = await geocoder.forwardGeocode({
+        query: attraction.location,
+        limit: 1
+    }).send();
+    attraction.geometry = geoData.body.features[0].geometry;
+    attraction.location = geoData.body.features[0].place_name;
+    const updateAttraction = await Attraction.findByIdAndUpdate(id, {...attraction});
     const imgs = req.files.map(f => ({url: f.path, filename: f.filename}));
-    attraction.images.push(...imgs);
-    await attraction.save();
+    updateAttraction.images.push(...imgs);
+    await updateAttraction.save();
     if(req.body.deleteImages){
         for(let filename of req.body.deleteImages){
             await cloudinary.uploader.destroy(filename);
         }
-        await attraction.updateOne({$pull: {images: {filename: {$in: req.body.deleteImages}}}})
+        await updateAttraction.updateOne({$pull: {images: {filename: {$in: req.body.deleteImages}}}})
     }
     req.flash('success', 'Successfully updated attraction!');
-    res.redirect(`/attractions/${attraction._id}`);
+    res.redirect(`/attractions/${updateAttraction._id}`);
 }
 
 module.exports.attractionDelete = async (req, res) => {

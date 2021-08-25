@@ -3,8 +3,9 @@ const map = new mapboxgl.Map({
 container: 'map', // container ID
 style: 'mapbox://styles/mapbox/streets-v11', // style URL
 center: attraction.geometry.coordinates, // starting position [lng, lat]
-zoom: 11 // starting zoom
+zoom: 12 // starting zoom
 });
+map.addControl(new mapboxgl.NavigationControl());
 
 new mapboxgl.Marker({color: 'black'})
     .setLngLat(attraction.geometry.coordinates)

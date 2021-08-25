@@ -11,7 +11,9 @@ ImageSchema.virtual('thumbnail').get(function(){
     return this.url.replace('/upload', '/upload/h_75,w_100');
 });
 //to use this virtual 'thumbnail', replace url to thumbnail in ejs files
- 
+
+const opts = {toJSON: {virtuals: true}};
+
 const AttractionSchema = new Schema({
     title: String,
     images: [ImageSchema],
@@ -38,7 +40,14 @@ const AttractionSchema = new Schema({
             ref: 'Review'
         }
     ]
-});
+}, opts);
+
+AttractionSchema.virtual('properties.popUpMarkUp').get(function(){
+    return `
+        <strong><a href="/attractions/${this._id}">${this.title}</a></strong>
+        <p>${this.description.substring(0,20)}</p>
+        `
+})
 
 AttractionSchema.post('findOneAndDelete', async function(doc){
     if(doc){
