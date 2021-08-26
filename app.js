@@ -29,7 +29,7 @@ const reviewRoute = require('./routes/reviews');
 const { contentSecurityPolicy } = require('helmet');
 
 
-const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
+const dbUrl = process.env.DB_URL;
 mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     useCreateIndex: true,
