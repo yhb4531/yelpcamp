@@ -39,20 +39,20 @@ map.on('load', () => {
             'circle-color': [
                 'step',
                 ['get', 'point_count'],
-                '#51bbd6',
+                '#b34024',
                 10,
                 '#f1f075',
-                750,
-                '#f28cb1'
+                25,
+                '#be53cf'
             ],
             'circle-radius': [
                 'step',
                 ['get', 'point_count'],
-                15,//20px under 10 counts
+                20,//20px under 10 counts
                 10,
-                25,//30px between 10 and 30 counts
-                30,
-                35 //40px above 30 counts
+                30,//30px between 10 and 25 counts
+                25,
+                40 //40px above 25 counts
             ]
         }
     });
@@ -76,7 +76,7 @@ map.on('load', () => {
         filter: ['!', ['has', 'point_count']],
         paint: {
             'circle-color': '#11b4da',
-            'circle-radius': 8,
+            'circle-radius': 10,
             'circle-stroke-width': 1,
             'circle-stroke-color': '#fff'
         }
@@ -106,7 +106,7 @@ map.on('load', () => {
     // the location of the feature, with
     // description HTML from its properties.
     map.on('click', 'unclustered-point', (e) => {
-        const {popUpMarkUp} = e.features[0].properties;
+        const { popUpMarkUp } = e.features[0].properties;
         const coordinates = e.features[0].geometry.coordinates.slice();
 
         // Ensure that if the map is zoomed out such that
