@@ -1,5 +1,5 @@
 //Using while in development
-if(process.env.NODE_ENV != "production"){
+if (process.env.NODE_ENV != "production") {
     require('dotenv').config();
 }
 
@@ -41,6 +41,7 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
     console.log("Database connected");
+    console.log(dbUrl);
 });
 
 const app = express();
@@ -49,7 +50,7 @@ app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize({
@@ -66,7 +67,7 @@ const store = MongoDBStore.create({
     }
 });
 
-store.on("error", function(e){
+store.on("error", function (e) {
     console.log("SESSION STORE ERROR", e);
 });
 
@@ -159,8 +160,8 @@ app.all('*', (req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-    const {statusCode = 500} = err;
-    if(!err.message) err.message = 'Something went wrong!';
+    const { statusCode = 500 } = err;
+    if (!err.message) err.message = 'Something went wrong!';
     res.status(statusCode).render('error', { err });
 })
 
